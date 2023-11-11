@@ -1,6 +1,21 @@
-import React from 'react'
+import React,{useState} from 'react'
+import { useDispatch,useSelector } from 'react-redux'
+import { moveClockwise } from '../state/action-creators'
+
+//this is connetced to the store
 
 export default function Wheel(props) {
+
+  const dispatch = useDispatch()
+
+  const wheelState = useSelector((state) => state.wheel)
+
+  const handleClockwise = () => {
+   console.log('clockwise button')
+   dispatch(moveClockwise({}))
+  }
+  
+
   return (
     <div id="wrapper">
       <div id="wheel">
@@ -13,7 +28,7 @@ export default function Wheel(props) {
       </div>
       <div id="keypad">
         <button id="counterClockwiseBtn" >Counter clockwise</button>
-        <button id="clockwiseBtn">Clockwise</button>
+        <button id="clockwiseBtn" onClick={handleClockwise}>Clockwise</button>
       </div>
     </div>
   )

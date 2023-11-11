@@ -1,5 +1,8 @@
 import React from 'react'
 
+
+
+
 export default function Quiz(props) {
   return (
     <div id="wrapper">
@@ -25,7 +28,7 @@ export default function Quiz(props) {
               </div>
             </div>
 
-            <button id="submitAnswerBtn">Submit answer</button>
+            <button id="submitAnswerBtn" >Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }
