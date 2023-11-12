@@ -1,12 +1,14 @@
-import React, { useState}from 'react'
+import React, { useState,useEffect}from 'react'
 import { connect ,useDispatch} from 'react-redux'
 import * as actionCreators from '../state/action-creators'
-import axios from 'axios'
+
 
 
 export function Form(props) {
+
   
- const {setQuiz} = props;
+ const {inputChange,setMessage} = props;
+ 
  const dispatch = useDispatch()
 
  const [formData, setFormData] = useState({
@@ -15,11 +17,10 @@ export function Form(props) {
   newFalseAnswer: '',
 });
 
+
+
   const onChange = evt => {
     const{id,value} = evt.target
-    console.log(id,'ID',evt.target.value,'evt.target.value')
-    console.log(props)
-    
     setFormData((prevData) => ({
       ...prevData,
       [id]:value,
@@ -28,17 +29,10 @@ export function Form(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
-
-    dispatch(setQuiz(formData));
-
-    axios.post('http://localhost:9000/api/quiz/new',formData)
-    .then(res => {
-      console.log(res)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
+    inputChange(formData);
+    dispatch(setMessage('test'))
+    }
+  
 
   return (
     <form id="form" onSubmit={onSubmit}>

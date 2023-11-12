@@ -2,6 +2,7 @@
 
 import { MOVE_CLOCKWISE } from "./action-types"
 import * as types from './action-types'
+import axios from "axios"
 
 
 
@@ -15,16 +16,23 @@ export function moveCounterClockwise() { }
 
 export function selectAnswer() { }
 
-export function setMessage() { }
+export function setMessage(message) {
+  return{
+    type: types.SET_INFO_MESSAGE,
+    payload:message
+  }
+ }
 
-export function setQuiz(formData) { 
+export function setQuiz() { 
+  
+}
+
+export function inputChange(formData) { 
   return {
-    type:types.SET_QUIZ_INTO_STATE,
+    type:types.INPUT_CHANGE,
     payload:formData,
   }
 }
-
-export function inputChange() { }
 
 export function resetForm() { }
 
@@ -45,11 +53,12 @@ export function postAnswer() {
     // - Dispatch the fetching of the next quiz
   }
 }
-export function postQuiz() {
+export function postQuiz(formData) {
   return function (dispatch) {
-    // On successful POST:
-    // - Dispatch the correct message to the the appropriate state
-    // - Dispatch the resetting of the form
+    return {
+      type:types.SET_QUIZ_INTO_STATE,
+      payload:formData
+    }
   }
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
