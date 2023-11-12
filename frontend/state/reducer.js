@@ -36,12 +36,9 @@ function selectedAnswer(state = initialSelectedAnswerState, action) {
 
 const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
-  console.log('inside reducer')
   switch(action.type){
     case SET_INFO_MESSAGE:
-    return{
-      ...state, infoMessage: action.payload
-    }
+    return action.payload
   }
   return state
 }

@@ -19,6 +19,7 @@ export function Form(props) {
 
 
 
+
   const onChange = evt => {
     const{id,value} = evt.target
     setFormData((prevData) => ({
@@ -30,7 +31,7 @@ export function Form(props) {
   const onSubmit = evt => {
     evt.preventDefault()
     inputChange(formData);
-    dispatch(setMessage('test'))
+    dispatch(setMessage(`Congrats: ${formData.newQuestion} is a great question!`))
     }
   
 
