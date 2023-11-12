@@ -27,14 +27,18 @@ export function setQuiz() {
   
 }
 
-export function inputChange(formData) { 
+export function inputChange(payload) { 
   return {
     type:types.INPUT_CHANGE,
-    payload:formData,
+    payload,
   }
 }
 
-export function resetForm() { }
+export function resetForm() { 
+  return{
+    type: types.RESET_FORM
+  }
+}
 
 // ❗ Async action creators
 export function fetchQuiz() {
