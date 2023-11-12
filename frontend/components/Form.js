@@ -11,9 +11,9 @@ export function Form(props) {
  
  const dispatch = useDispatch()
 
-
-console.log(resetForm)
-
+ const isSubmitDisabled = !form.newQuestion.trim() || !form.newTrueAnswer.trim() || !form.newFalseAnswer.trim() || 
+ form.newQuestion.trim().length < 2 || form.newTrueAnswer.trim().length < 2 || form.newFalseAnswer.trim().length < 2;
+ 
 
   const onChange = evt => {
     const{id,value} = evt.target
@@ -36,7 +36,7 @@ console.log(resetForm)
       <input maxLength={50} onChange={onChange} id="newQuestion" placeholder="Enter question" value={form.newQuestion}/>
       <input maxLength={50} onChange={onChange} id="newTrueAnswer" placeholder="Enter true answer" value={form.newTrueAnswer} />
       <input maxLength={50} onChange={onChange} id="newFalseAnswer" placeholder="Enter false answer" value={form.newFalseAnswer}/>
-      <button id="submitNewQuizBtn">Submit new quiz</button>
+      <button id="submitNewQuizBtn"disabled={isSubmitDisabled}>Submit new quiz</button>
     </form>
   )
 }
