@@ -9,6 +9,7 @@ export function Form(props) {
   
  const {inputChange,setMessage,resetForm,form} = props;
  
+ 
  const dispatch = useDispatch()
 
  const isSubmitDisabled = !form.newQuestion.trim() || !form.newTrueAnswer.trim() || !form.newFalseAnswer.trim() || 

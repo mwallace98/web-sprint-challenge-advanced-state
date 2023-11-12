@@ -1,37 +1,64 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import { connect,useDispatch } from 'react-redux'
+import * as actionCreators from '../state/action-creators'
 
 
 
 
-export default function Quiz(props) {
+export function Quiz(props) {
+  const {fetchQuiz,quiz,selectedAnswer,selectAnswer}= props 
+  const dispatch = useDispatch()
+  
+  
+  console.log(quiz,'quiz')
+  useEffect(() => {
+    fetchQuiz();
+  },[fetchQuiz])
+
+  const handleSubmitQuiz = () => {
+}
   return (
     <div id="wrapper">
       {
         // quiz already in state? Let's use that, otherwise render "Loading next quiz..."
-        true ? (
+        quiz ? (
           <>
-            <h2>What is a closure?</h2>
+            <h2>{quiz.question}</h2>
+
+           
 
             <div id="quizAnswers">
-              <div className="answer selected">
-                A function
-                <button>
-                  SELECTED
+            {quiz.answers.map((answer) => (
+              <div key={answer.answer_id}  className={selectedAnswer === answer ? 'selected' : ''}>
+                {answer.text} 
+                
+                <button onClick={() => selectAnswer(answer)} >
+                {selectedAnswer === answer ? 'SELECTED' : 'Select'}
                 </button>
               </div>
-
-              <div className="answer">
-                An elephant
-                <button>
-                  Select
-                </button>
-              </div>
-            </div>
-
-            <button id="submitAnswerBtn" >Submit answer</button>
+              
+            ))}
+            
+          </div>
+              <button id="submitAnswerBtn" onClick={handleSubmitQuiz} disabled={!selectedAnswer}>
+              Submit answer
+            </button>
           </>
         ) : 'Loading next quiz...'
       }
     </div>
   )
 }
+
+const mapStateToProps = (state) => {
+  console.log(state,'state')
+  return{
+  quiz:state.quiz,
+  selectedAnswer: state.selectedAnswer
+  }
+};
+
+
+
+export default connect(mapStateToProps,actionCreators)(Quiz)
+
