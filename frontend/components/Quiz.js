@@ -1,21 +1,40 @@
 import React, {useEffect} from 'react'
 import { connect,useDispatch } from 'react-redux'
 import * as actionCreators from '../state/action-creators'
-
+import axios from 'axios'
 
 
 
 export function Quiz(props) {
-  const {fetchQuiz,quiz,selectedAnswer,selectAnswer}= props 
+  const {
+    fetchQuiz,
+    resetSelectedAnswer,
+    quiz,
+    selectedAnswer,
+    selectAnswer,
+    setMessage,
+    infoMessage,
+    formData,
+     }= props 
   const dispatch = useDispatch()
+
   
+
   
-  console.log(quiz,'quiz')
   useEffect(() => {
     fetchQuiz();
   },[fetchQuiz])
 
+  
+
   const handleSubmitQuiz = () => {
+    
+    dispatch(setMessage('test'))
+    dispatch(resetSelectedAnswer())
+    dispatch(fetchQuiz())
+    
+    
+    
 }
   return (
     <div id="wrapper">
@@ -29,11 +48,11 @@ export function Quiz(props) {
 
             <div id="quizAnswers">
             {quiz.answers.map((answer) => (
-              <div key={answer.answer_id}  className={selectedAnswer === answer ? 'selected' : ''}>
+              <div key={answer.answer_id}  className={selectedAnswer === answer.answer_id ? 'selected' : ''}>
                 {answer.text} 
-                
-                <button onClick={() => selectAnswer(answer)} >
-                {selectedAnswer === answer ? 'SELECTED' : 'Select'}
+
+                <button onClick={() => selectAnswer(answer.answer_id)} >
+                {selectedAnswer === answer.answer_id ? 'SELECTED' : 'Select'}
                 </button>
               </div>
               
@@ -51,10 +70,10 @@ export function Quiz(props) {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state,'state')
   return{
-  quiz:state.quiz,
-  selectedAnswer: state.selectedAnswer
+    quiz:state.quiz,
+    selectedAnswer: state.selectedAnswer,
+    infoMessage:state.infoMessage
   }
 };
 

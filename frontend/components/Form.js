@@ -1,6 +1,7 @@
 import React, { useState,useEffect}from 'react'
 import { connect ,useDispatch} from 'react-redux'
 import * as actionCreators from '../state/action-creators'
+import { post } from '../../backend/server';
 
 
 
@@ -8,6 +9,8 @@ export function Form(props) {
 
   
  const {inputChange,setMessage,resetForm,form} = props;
+
+
  
  
  const dispatch = useDispatch()
@@ -22,12 +25,11 @@ export function Form(props) {
   }
 
   const onSubmit = evt => {
-    console.log('submit')
+    console.log('submit form button')
     evt.preventDefault()
     
     dispatch(setMessage(`Congrats: "${form.newQuestion}" is a great question!`))
     dispatch(resetForm())
-
     }
   
 

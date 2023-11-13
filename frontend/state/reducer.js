@@ -38,10 +38,11 @@ const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
   switch(action.type){
     case SET_INFO_MESSAGE:
-    return action.payload
+      return action.payload;
+    default:
+      return state;
+    }
   }
-  return state
-}
 
 const initialFormState = {
   newQuestion: '',
@@ -60,5 +61,7 @@ function form(state = initialFormState, action) {
   }
   return state
 }
+
+
 
 export default combineReducers({ wheel, quiz, selectedAnswer, infoMessage, form })
