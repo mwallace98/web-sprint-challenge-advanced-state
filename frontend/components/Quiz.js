@@ -1,40 +1,34 @@
 import React, {useEffect} from 'react'
 import { connect,useDispatch } from 'react-redux'
 import * as actionCreators from '../state/action-creators'
-import axios from 'axios'
+
+
 
 
 
 export function Quiz(props) {
-  const {
-    fetchQuiz,
-    resetSelectedAnswer,
-    quiz,
-    selectedAnswer,
-    selectAnswer,
-    setMessage,
-    infoMessage,
-    formData,
-     }= props 
+  const {fetchQuiz,quiz,selectedAnswer,selectAnswer,postQuiz,setMessage,infoMessage,answer_id}= props 
   const dispatch = useDispatch()
-
+  console.log(selectedAnswer,'selected answer')
+  
+  
   
 
-  
   useEffect(() => {
     fetchQuiz();
   },[fetchQuiz])
 
-  
+  useEffect(() => {
+  }, [quiz])
 
-  const handleSubmitQuiz = () => {
-    
-    dispatch(setMessage('test'))
-    dispatch(resetSelectedAnswer())
-    dispatch(fetchQuiz())
-    
-    
-    
+  const handleSubmitQuiz = async () => {
+    const isCorrect = await selectAnswer({answer_id:selectedAnswer})
+    if(isCorrect){
+      dispatch(setMessage('correct'))
+    }else{
+      dispatch(setMessage('wrong'))
+    }
+    dispatch(setMessage(infoMessage))
 }
   return (
     <div id="wrapper">
@@ -50,8 +44,8 @@ export function Quiz(props) {
             {quiz.answers.map((answer) => (
               <div key={answer.answer_id}  className={selectedAnswer === answer.answer_id ? 'selected' : ''}>
                 {answer.text} 
-
-                <button onClick={() => selectAnswer(answer.answer_id)} >
+                
+                <button onClick={() => selectAnswer(answer)} >
                 {selectedAnswer === answer.answer_id ? 'SELECTED' : 'Select'}
                 </button>
               </div>
@@ -59,7 +53,7 @@ export function Quiz(props) {
             ))}
             
           </div>
-              <button id="submitAnswerBtn" onClick={handleSubmitQuiz} disabled={!selectedAnswer}>
+              <button id="submitAnswerBtn" onClick={() => handleSubmitQuiz()} disabled={!selectedAnswer}>
               Submit answer
             </button>
           </>
@@ -71,9 +65,9 @@ export function Quiz(props) {
 
 const mapStateToProps = (state) => {
   return{
-    quiz:state.quiz,
-    selectedAnswer: state.selectedAnswer,
-    infoMessage:state.infoMessage
+  quiz:state.quiz,
+  selectedAnswer: state.selectedAnswer,
+  infoMessage:state.infoMessage
   }
 };
 

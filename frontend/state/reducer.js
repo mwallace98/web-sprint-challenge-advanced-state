@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { INPUT_CHANGE, MOVE_CLOCKWISE, MOVE_COUNTERCLOCKWISE, RESET_FORM, SET_INFO_MESSAGE, SET_QUIZ_INTO_STATE, SET_SELECTED_ANSWER } from './action-types'
 
 
+
 const initialWheelState = 0
 function wheel(state = initialWheelState, action) {
   switch(action.type){
@@ -36,13 +37,13 @@ function selectedAnswer(state = initialSelectedAnswerState, action) {
 
 const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
+  
   switch(action.type){
     case SET_INFO_MESSAGE:
-      return action.payload;
-    default:
-      return state;
-    }
+    return action.payload
   }
+  return state
+}
 
 const initialFormState = {
   newQuestion: '',
@@ -61,7 +62,5 @@ function form(state = initialFormState, action) {
   }
   return state
 }
-
-
 
 export default combineReducers({ wheel, quiz, selectedAnswer, infoMessage, form })

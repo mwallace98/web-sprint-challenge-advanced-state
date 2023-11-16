@@ -1,8 +1,10 @@
 // ❗ You don't need to add extra action creators to achieve MVP
 
-import { MOVE_CLOCKWISE,SET_QUIZ_INTO_STATE,SET_SELECTED_ANSWER,SET_INFO_MESSAGE, } from "./action-types"
+import { MOVE_CLOCKWISE,SET_QUIZ_INTO_STATE,SET_SELECTED_ANSWER } from "./action-types"
 import * as types from './action-types'
 import axios from "axios"
+
+
 
 export function moveClockwise() { 
   return {
@@ -13,24 +15,26 @@ export function moveClockwise() {
 export function moveCounterClockwise() { }
 
 export function selectAnswer(answer) { 
+  
+  const {answer_id} = answer;
+  console.log(answer_id)
+  
   return{
-    type: types.SET_SELECTED_ANSWER,
-    payload:answer
+    type: SET_SELECTED_ANSWER,
+    payload:
+      answer_id,
   }
 }
 
 export function setMessage(message) {
-  return  {
-    type:types.SET_INFO_MESSAGE,
-    payload:message,
+  return{
+    type: types.SET_INFO_MESSAGE,
+    payload:message
   }
  }
 
-export function setQuiz(formData) { 
-  return{
-    type:types.SET_QUIZ_INTO_STATE,
-    payload:formData
-  }
+export function setQuiz() { 
+  
 }
 
 export function inputChange(payload) { 
@@ -46,33 +50,26 @@ export function resetForm() {
   }
 }
 
-export function resetSelectedAnswer() {
-  return {
-    type: types.RESET_SELECTED_ANSWER,
-  };
-}
-
 // ❗ Async action creators
 export function fetchQuiz() {
-  return function (dispatch) {
-    console.log('beforfe axios request')
-    axios.get('http://localhost:9000/api/quiz/next')
-      .then(res => {
-        const { quiz_id, question, answers } = res.data;
+  return async function (dispatch) {
 
-        if (!quiz_id || !question || !answers) {
-          dispatch(setMessage('Invalid format'));
-        } else {
-          dispatch({
-            type: SET_QUIZ_INTO_STATE,
-            payload: { quiz_id, question, answers }
-          });
+    try{ 
+      const res = await axios.get('http://localhost:9000/api/quiz/next');
+      dispatch({
+        type:SET_QUIZ_INTO_STATE,
+        payload:{
+          quiz_id: res.data.quiz_id,
+          question:res.data.question,
+          answers:res.data.answers
         }
       })
-      .catch(err => {
-        console.error(err.response.data);
-        dispatch(setMessage('Error fetching quiz'));
-      });
+    } catch(err) {
+      console.log(err)
+    }
+    // First, dispatch an action to reset the quiz state (so the "Loading next quiz..." message can display)
+    // On successful GET:
+    // - Dispatch an action to send the obtained quiz to its state
   }
 }
 export function postAnswer() {
@@ -83,39 +80,30 @@ export function postAnswer() {
     // - Dispatch the fetching of the next quiz
   }
 }
-export function postQuiz(formData) {
-  return function (dispatch) {
-    axios.post('http://localhost:9000/api/quiz/new',formData)
-    .then(res => {
+export function postQuiz(selectedAnswer) {
+  return async function (dispatch) {
+    try{
+      
+
+      const response = await axios.post('http://localhost:9000/api/quiz/answer', { selectedAnswer });
+      const isCorrect = response.data
+      console.log(selectedAnswer,'slectedAnswer')
+
       dispatch({
-        type:types.SET_QUIZ_INTO_STATE,
-        payload:formData
-      })
-      console.log(res.data)
-    }).catch(err => {
-      console.log(err,'error')
-    })
-    
+        type: types.SET_INFO_MESSAGE,
+        payload:action.payload
+      });
+      dispatch({
+        type: SET_SELECTED_ANSWER,
+        payload:{...selectedAnswer,
+          quiz_id:'test',
+          answer_id:'test'
+        }
+      });
+    } catch(error) {
+      console.log(error)
+
+    }
   }
 }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
-
-
-
-// return function (dispatch) {
-//   axios.get('http://localhost:9000/api/quiz/next')
-//     .then(res => {
-//       dispatch({
-//         type: SET_QUIZ_INTO_STATE,
-//         payload: {
-//           quiz_id: res.data.quiz_id,
-//           question: res.data.question,
-//           answers: res.data.answers
-//         }
-//       });
-//     })
-//     .catch(err => {
-//       console.error(err);
-//       dispatch(setMessage('Error'));
-//     });
-// }
