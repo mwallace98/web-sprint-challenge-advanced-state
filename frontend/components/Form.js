@@ -7,8 +7,13 @@ import * as actionCreators from '../state/action-creators'
 export function Form(props) {
 
   
- const {inputChange,setMessage,resetForm,form} = props;
+ const {setMessage,resetForm,form,fetchQuiz,quiz,setQuiz} = props;
  
+ 
+  useEffect(() => {
+    fetchQuiz();
+  },[fetchQuiz])
+
  
  const dispatch = useDispatch()
 
@@ -22,12 +27,11 @@ export function Form(props) {
   }
 
   const onSubmit = evt => {
-    console.log('submit')
     evt.preventDefault()
     
     dispatch(setMessage(`Congrats: "${form.newQuestion}" is a great question!`))
     dispatch(resetForm())
-
+    dispatch(setQuiz(quiz))
     }
   
 
@@ -42,6 +46,14 @@ export function Form(props) {
   )
 }
 
+const mapStateToProps = (state) => {
+  return{
+  quiz:state.quiz,
+  form:state.form,
+  selectedAnswer: state.selectedAnswer,
+  infoMessage:state.infoMessage,
+  newQuestion:state.newQuestion
+  }
+};
 
-
-export default connect((state) => ({form:state.form}), actionCreators)(Form)
+export default connect(mapStateToProps, actionCreators)(Form)
