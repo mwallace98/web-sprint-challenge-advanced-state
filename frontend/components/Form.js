@@ -10,6 +10,7 @@ export function Form(props) {
   
  const {setMessage,resetForm,form,fetchQuiz,quiz,setQuiz,postAnswer,inputChange,infoMessage,newQuestion} = props;
  console.log(newQuestion,'new question')
+ console.log(form)
 
   
  
@@ -29,6 +30,7 @@ export function Form(props) {
   const onSubmit = evt => {
     evt.preventDefault()
     setMessage(`Congrats: "${newQuestion}" is a great question!`)
+    dispatch(actionCreators.postQuiz(form))
     dispatch(resetForm())
     
     }

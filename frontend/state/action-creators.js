@@ -80,11 +80,27 @@ export function fetchQuiz() {
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
   
-export function postAnswer(newQuiz,newQuestion,initialFormState) {
+export function postAnswer() {
   return async function (dispatch) {}
 }
-export function postQuiz(quizData) {
-    return async function (dispatch) {}
-      
+export function postQuiz(form) {
+    return async function (dispatch) {
+      try{
+        const payload = {
+          question_text:form.newQuestion,
+          true_answer_text:form.newTrueAnswer,
+          false_answer_text: form.newFalseAnswer
+        };
+
+        const res = await axios.post('http://localhost:9000/api/quiz/new',payload)
+
+        dispatch({
+          type:SET_QUIZ_INTO_STATE,
+          payload:res.data
+        })
+      }catch(error) {
+        console.log(error)
+    }
+    }
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
 }
