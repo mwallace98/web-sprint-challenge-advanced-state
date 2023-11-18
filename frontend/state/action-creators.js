@@ -1,15 +1,16 @@
 // ❗ You don't need to add extra action creators to achieve MVP
 
-import { MOVE_CLOCKWISE,SET_QUIZ_INTO_STATE,SET_SELECTED_ANSWER } from "./action-types"
+import { MOVE_CLOCKWISE,SET_QUIZ_INTO_STATE,SET_SELECTED_ANSWER,SET_INFO_MESSAGE,RESET_FORM} from "./action-types"
 import * as types from './action-types'
 import axios from "axios"
 
 
 
 
+
 export function moveClockwise() { 
   return {
-    type:types.MOVE_CLOCKWISE,
+    type:types.MOVE_CLOCKWISE,   
   }
 }
 
@@ -17,18 +18,21 @@ export function moveCounterClockwise() { }
 
 export function selectAnswer(answer) { 
   
-  const {answer_id} = answer;
   
+  const {answer_id} = answer;
+  console.log(answer_id)
+
   return{
     type: SET_SELECTED_ANSWER,
     payload:
       answer_id,
+    
   }
 }
 
 export function setMessage(message) {
   return{
-    type: types.SET_INFO_MESSAGE,
+    type: SET_INFO_MESSAGE,
     payload:message
   }
  }
@@ -59,15 +63,15 @@ export function fetchQuiz() {
       
       try { 
         const res = await axios.get('http://localhost:9000/api/quiz/next');
-        const quizData = {
-          type: SET_QUIZ_INTO_STATE,
-          payload: {
+        const quizData =  {
             quiz_id: res.data.quiz_id,
             question: res.data.question,
             answers: res.data.answers
-          }
         };
-        dispatch(quizData);
+        dispatch({
+          type:SET_QUIZ_INTO_STATE,
+          payload:quizData
+        });
       } catch (err) {
         console.log(err);
       }
@@ -77,31 +81,11 @@ export function fetchQuiz() {
     // On successful GET:
     // - Dispatch an action to send the obtained quiz to its state
   
-export function postAnswer() {
-  return async function (dispatch) {
-    
-    // On successful POST:
-    // - Dispatch an action to reset the selected answer state
-    // - Dispatch an action to set the server message to state
-    // - Dispatch the fetching of the next quiz
-  }
+export function postAnswer(newQuiz,newQuestion,initialFormState) {
+  return async function (dispatch) {}
 }
 export function postQuiz(quizData) {
-    return async function (dispatch) {
-
-      try{ 
-        const response = await axios.post('http://localhost:9000/api/quiz/new',  quizData  );
-      dispatch({
-        type: types.SET_QUIZ_INTO_STATE, 
-        payload:response.data
-      })
-    }catch(error){
-      console.log(error,'error')
-      dispatch({
-        type: types.SET_INFO_MESSAGE,
-        payload:'test error message'
-      })
-    }
-  } 
+    return async function (dispatch) {}
+      
 // ❗ On promise rejections, use log statements or breakpoints, and put an appropriate error message in state
 }

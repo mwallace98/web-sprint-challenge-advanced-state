@@ -7,7 +7,7 @@ import * as actionCreators from '../state/action-creators'
 
 
 export function Quiz(props) {
-  const {fetchQuiz,quiz,selectedAnswer,selectAnswer,setMessage,infoMessage}= props 
+  const {fetchQuiz,quiz,selectedAnswer,selectAnswer,setMessage,quizAnswers}= props 
   const dispatch = useDispatch()
   
   
@@ -15,16 +15,20 @@ export function Quiz(props) {
     fetchQuiz();
   },[fetchQuiz])
 
+  
+
   useEffect(() => {
   }, [quiz])
 
+
   const handleSubmitQuiz = async () => {
-    const isCorrect = await selectAnswer({answer_id:selectedAnswer})
-    dispatch(isCorrect)
-    dispatch(setMessage(infoMessage))
 
+    dispatch(actionCreators.fetchQuiz())
     
+    
+   
 
+  
 }
   return (
     <div id="wrapper">
@@ -60,11 +64,12 @@ export function Quiz(props) {
 }
 
 const mapStateToProps = (state) => {
-  
+  console.log(state,'state')
+ 
   return{
   quiz:state.quiz,
   selectedAnswer: state.selectedAnswer,
-  infoMessage:state.infoMessage
+  infoMessage:state.infoMessage,
   }
 };
 

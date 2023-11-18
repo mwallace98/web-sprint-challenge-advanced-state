@@ -37,9 +37,9 @@ function selectedAnswer(state = initialSelectedAnswerState, action) {
 }
 
 const initialMessageState = ''
-function infoMessage(state = initialMessageState, action) {
+function infoMessage(state = initialMessageState, action) { 
+
   switch(action.type){
-    
     case SET_INFO_MESSAGE:
       return action.payload
     default:
@@ -60,9 +60,10 @@ function form(state = initialFormState, action) {
         [action.payload.id]:action.payload.value,
       }
     case RESET_FORM:
-    return initialFormState
+      return initialFormState
+    default:
+      return state
   }
-  return state
 }
 
 export default combineReducers({ wheel, quiz, selectedAnswer, infoMessage, form })

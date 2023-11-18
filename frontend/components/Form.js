@@ -1,18 +1,17 @@
 import React, { useState,useEffect}from 'react'
 import { connect ,useDispatch} from 'react-redux'
 import * as actionCreators from '../state/action-creators'
+import { SET_INFO_MESSAGE } from '../state/action-types';
 
 
 
 export function Form(props) {
 
   
- const {setMessage,resetForm,form,fetchQuiz,quiz,setQuiz} = props;
+ const {setMessage,resetForm,form,fetchQuiz,quiz,setQuiz,postAnswer,inputChange,infoMessage} = props;
+ console.log(infoMessage)
+  
  
- 
-  useEffect(() => {
-    fetchQuiz();
-  },[fetchQuiz])
 
  
  const dispatch = useDispatch()
@@ -23,15 +22,12 @@ export function Form(props) {
 
   const onChange = evt => {
     const{id,value} = evt.target
-    dispatch(actionCreators.inputChange({id,value}))
+    dispatch(inputChange({id,value}))
   }
 
   const onSubmit = evt => {
     evt.preventDefault()
     
-    dispatch(setMessage(`Congrats: "${form.newQuestion}" is a great question!`))
-    dispatch(resetForm())
-    dispatch(setQuiz(quiz))
     }
   
 
