@@ -20,7 +20,6 @@ export function selectAnswer(answer) {
   
   
   const {answer_id} = answer;
-  console.log(answer_id)
 
   return{
     type: SET_SELECTED_ANSWER,
