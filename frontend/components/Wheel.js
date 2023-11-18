@@ -10,7 +10,8 @@ export function Wheel(props) {
   
   const dispatch = useDispatch()
 
-  const wheelState = useSelector((state) => state.wheel)
+  const {wheelState} = props;
+  console.log(wheelState)
 
   const handleClockwise = () => {
    console.log('clockwise button')
@@ -30,7 +31,9 @@ export function Wheel(props) {
             key={index}
             className={`cog${index === wheelState ? ' active' : ''}`}
             style={{ "--i": index }}
-          ></div>
+          >
+            {index === wheelState ? 'B' : null}
+          </div>
         ))}
       </div>
       <div id="keypad">
@@ -43,11 +46,7 @@ export function Wheel(props) {
 
 const mapStateToProps = (state) => {
   return{
-  quiz:state.quiz,
-  form:state.form,
-  selectedAnswer: state.selectedAnswer,
-  infoMessage:state.infoMessage,
-  newQuestion:state.form.newQuestion
+  wheelState:state.wheel
   }
 };
 export default connect(mapStateToProps,actionCreators)(Wheel)
