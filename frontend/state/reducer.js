@@ -10,7 +10,13 @@ function wheel(state = initialWheelState, action) {
     case MOVE_CLOCKWISE:
       if(state < 5){
         return state + 1
-      }
+      } 
+      return 0
+    case MOVE_COUNTERCLOCKWISE:
+      if (state >= 1){
+        return state - 1
+      } 
+      return 5;
         default:
       return state
   }

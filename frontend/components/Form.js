@@ -1,7 +1,7 @@
 import React, { useState,useEffect}from 'react'
 import { connect ,useDispatch} from 'react-redux'
 import * as actionCreators from '../state/action-creators'
-import { SET_INFO_MESSAGE } from '../state/action-types';
+
 
 
 

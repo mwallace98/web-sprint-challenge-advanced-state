@@ -10,11 +10,15 @@ import axios from "axios"
 
 export function moveClockwise() { 
   return {
-    type:types.MOVE_CLOCKWISE,   
+    type:types.MOVE_CLOCKWISE,  
   }
 }
 
-export function moveCounterClockwise() { }
+export function moveCounterClockwise() { 
+  return{
+    type:types.MOVE_COUNTERCLOCKWISE
+  }
+}
 
 export function selectAnswer(answer) { 
   
