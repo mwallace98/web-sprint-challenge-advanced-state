@@ -8,8 +8,9 @@ import { SET_INFO_MESSAGE } from '../state/action-types';
 export function Form(props) {
 
   
- const {setMessage,resetForm,form,fetchQuiz,quiz,setQuiz,postAnswer,inputChange,infoMessage} = props;
- console.log(infoMessage)
+ const {setMessage,resetForm,form,fetchQuiz,quiz,setQuiz,postAnswer,inputChange,infoMessage,newQuestion} = props;
+ console.log(newQuestion,'new question')
+
   
  
 
@@ -27,6 +28,8 @@ export function Form(props) {
 
   const onSubmit = evt => {
     evt.preventDefault()
+    setMessage(`Congrats: "${newQuestion}" is a great question!`)
+    dispatch(resetForm())
     
     }
   
@@ -48,7 +51,7 @@ const mapStateToProps = (state) => {
   form:state.form,
   selectedAnswer: state.selectedAnswer,
   infoMessage:state.infoMessage,
-  newQuestion:state.newQuestion
+  newQuestion:state.form.newQuestion
   }
 };
 
